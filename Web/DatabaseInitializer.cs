@@ -33,6 +33,7 @@ public static class DatabaseInitializer
                     Id SERIAL PRIMARY KEY,
                     WareId INT NOT NULL,
                     OrderId INT NOT NULL,
+                    Quantity INT NOT NULL,
                     FOREIGN KEY (WareId) REFERENCES Wares(Id) ON DELETE CASCADE,
                     FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE
                 );";

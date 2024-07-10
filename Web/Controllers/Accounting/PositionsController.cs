@@ -32,10 +32,10 @@ public class PositionsController : ControllerBase
     /// <summary>
     /// Удаление позиции из заказа
     /// </summary>
-    [HttpDelete("{orderId}/positions/{wareId}")]
-    public async Task<ActionResult> RemovePositionFromOrder(int orderId, int wareId)
+    [HttpDelete("{positionId}")]
+    public async Task<ActionResult> RemovePositionFromOrder(int positionId)
     {
-        await _dataService.RemovePositionFromOrderAsync(orderId, wareId);
+        await _dataService.RemovePositionFromOrderAsync(positionId);
         return Ok();
     }
 

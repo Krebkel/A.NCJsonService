@@ -1,0 +1,86 @@
+    /* Общие стили для таблиц и кнопок */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.action-buttons button {
+    margin-right: 6px;
+    padding: 10px;
+    background-color: #4596d1;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.action-buttons button:hover {
+    background-color: #025ea1;
+}
+
+/* Стили для формы создания */
+#addInvoiceForm, #updateInvoiceFormDiv {
+    display: none;
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-top: 20px;
+}
+
+.invoice-form h2 {
+    margin-bottom: 10px;
+}
+
+.invoice-form label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.invoice-form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+}
+
+.invoice-form button {
+    padding: 6px;
+    background-color: #4596d1;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+}
+
+.invoice-form button:hover {
+    background-color: #025ea1;
+}
+
+.invoice-form table {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Стили для кнопки "Создать документ" */
+#showAddInvoiceFormButton {
+    margin-right: 6px;
+    padding: 6px;
+    background-color: #4596d1;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+}

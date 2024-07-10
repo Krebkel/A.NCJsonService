@@ -1,7 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Npgsql;
 using System.Text.Json.Serialization;
-using Web.Services;
+using Microsoft.Net.Http.Headers;
 using Web.Services.Accounting;
 using Web.Services.EventHandler;
 
@@ -41,8 +41,6 @@ public class Startup
         {
             c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
         });
-        
-        services.AddRazorPages(); 
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -58,7 +56,17 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
-        app.UseStaticFiles();
+
+        app.UseDefaultFiles()
+            .UseStaticFiles(new StaticFileOptions
+            {
+                OnPrepareResponse = context =>
+                {
+                    var headers = context.Context.Response.GetTypedHeaders();
+                    headers.CacheControl = new CacheControlHeaderValue { Public = true, MaxAge = TimeSpan.FromMinutes(1) };
+                }
+            });
+
         app.UseRouting();
 
         app.UseSwagger();

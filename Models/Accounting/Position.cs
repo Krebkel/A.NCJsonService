@@ -11,4 +11,9 @@ public class Position : DatabaseEntity
     /// ID заказа
     /// </summary>
     public required int OrderId { get; set; }
+    
+    /// <summary>
+    /// Количество
+    /// </summary>
+    public required int Quantity { get; set; }
 }

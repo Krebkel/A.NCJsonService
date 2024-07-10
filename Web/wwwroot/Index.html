@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./libs/bootstrap.css">
+    <link rel="stylesheet" href="./libs/awesome_6.0.0_css_all.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Orders</h2>
+    <div class="mb-2">
+        <button id="createOrder" class="btn btn-primary">Create Order</button>
+        <input type="file" id="importOrdersFile" class="d-none">
+        <button id="importOrdersBtn" class="btn btn-secondary">Import Orders</button>
+        <button id="exportOrdersBtn" class="btn btn-secondary">Export Orders</button>
+    </div>
+    <table id="ordersTable" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Sum</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2 class="mt-5">Positions</h2>
+    <div class="mb-2">
+        <button id="createPosition" class="btn btn-primary">Create Position</button>
+    </div>
+    <table id="positionsTable" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Quantity</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2 class="mt-5">Wares</h2>
+    <div class="mb-2">
+        <button id="createWare" class="btn btn-primary">Create Ware</button>
+        <input type="file" id="importWaresFile" class="d-none">
+        <button id="importWaresBtn" class="btn btn-secondary">Import Wares</button>
+        <button id="exportWaresBtn" class="btn btn-secondary">Export Wares</button>
+    </div>
+    <table id="waresTable" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Value</th>
+            <th>Property</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h2 class="mt-5">EventHandler</h2>
+    <div class="mb-2">
+        <label for="startDate">Start Date:</label>
+        <input type="datetime-local" id="startDate" value="">
+        <label for="endDate">End Date:</label>
+        <input type="datetime-local" id="endDate" value="">
+        <button id="loadEvents" class="btn btn-primary">Load events</button>
+        <button id="importEvents" class="btn btn-secondary">Import JSON</button>
+    </div>
+    <table id="eventsTable" class="table table-bordered">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <div class="mb-2">
+        <label for="eventName">Event Name:</label>
+        <input type="text" id="eventName" class="form-control">
+        <label for="eventValue">Event Value:</label>
+        <input type="number" id="eventValue" class="form-control">
+        <button id="postEvent" class="btn btn-primary">Post Event</button>
+    </div>
+</div>
+<!-- jquery+bootstrap  -->
+<script src="./libs/jquery.js"></script>
+<script src="./libs/popper.js"></script>
+<script src="./libs/bootstrap.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
