@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
-using Models;
-using Web.Services;
+using Models.Accounting;
+using Web.Services.Accounting;
 
-namespace Web.Controllers;
+namespace Web.Controllers.Accounting;
 
 [Route("api/[controller]")]
 [ApiController]
