@@ -113,15 +113,15 @@ public class DataService
     /// </summary>
     public async Task AddPositionToOrderAsync(Position position)
     {
-        await _connection.ExecuteAsync("INSERT INTO Positions (WareId, OrderId) VALUES (@WareId, @OrderId)", position);
+        await _connection.ExecuteAsync("INSERT INTO Positions (WareId, OrderId, Quantity) VALUES (@WareId, @OrderId, @Quantity)", position);
     }
 
     /// <summary>
     /// Убрать позицию заказа по ID заказа и ID товара
     /// </summary>
-    public async Task RemovePositionFromOrderAsync(int orderId, int wareId)
+    public async Task RemovePositionFromOrderAsync(int positionId)
     {
-        await _connection.ExecuteAsync("DELETE FROM Positions WHERE OrderId = @OrderId AND WareId = @WareId", new { OrderId = orderId, WareId = wareId });
+        await _connection.ExecuteAsync("DELETE FROM Positions WHERE Id = @PositionId", new { PositionId = positionId});
     }
 
     /// <summary>
