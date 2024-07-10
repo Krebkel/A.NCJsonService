@@ -74,7 +74,8 @@
         <label for="endDate">End Date:</label>
         <input type="datetime-local" id="endDate" value="">
         <button id="loadEvents" class="btn btn-primary">Load events</button>
-        <button id="importEvents" class="btn btn-secondary">Import JSON</button>
+        <input type="file" id="importEventsFile" class="d-none">
+        <button id="importEventsBtn" class="btn btn-secondary">Import JSON</button>
     </div>
     <table id="eventsTable" class="table table-bordered">
         <thead>
