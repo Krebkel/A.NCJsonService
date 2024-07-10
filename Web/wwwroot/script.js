@@ -30,7 +30,8 @@ $(document).ready(function() {
 
     // Обработка событий
     $("#loadEvents").click(loadEvents);
-    $("#importEvents").click(importEvents);
+    $("#importEventsBtn").click(() => $("#importEventsFile").click());
+    $("#importEventsFile").change(importEvents);
     $("#postEvent").click(postEvent);
 });
 
@@ -339,6 +340,8 @@ function exportWares() {
 function importEvents() {
     const fileInput = document.getElementById('importEventsFile');
     const file = fileInput.files[0];
+
+    const formData = new FormData();
     formData.append('importFile', file);
 
     $.ajax({
