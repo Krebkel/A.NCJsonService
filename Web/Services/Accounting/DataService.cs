@@ -1,10 +1,10 @@
+using System.Text;
 using Dapper;
+using Models.Accounting;
 using Newtonsoft.Json;
 using Npgsql;
-using System.Text;
-using Models;
 
-namespace Web.Services;
+namespace Web.Services.Accounting;
 
 public class DataService
 {

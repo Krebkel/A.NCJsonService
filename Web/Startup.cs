@@ -2,6 +2,8 @@ using Microsoft.OpenApi.Models;
 using Npgsql;
 using System.Text.Json.Serialization;
 using Web.Services;
+using Web.Services.Accounting;
+using Web.Services.EventHandler;
 
 namespace Web;
 
@@ -24,7 +26,9 @@ public class Startup
             });
         
         services.AddScoped<DataService>();
+        services.AddScoped<IEventService, EventService>();
 
+        
         services.AddScoped<NpgsqlConnection>(_ =>
         {
             var connectionString = Configuration.GetConnectionString("DefaultConnection");

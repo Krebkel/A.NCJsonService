@@ -36,6 +36,14 @@ public static class DatabaseInitializer
                     FOREIGN KEY (WareId) REFERENCES Wares(Id) ON DELETE CASCADE,
                     FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE
                 );";
+        
+        var createEventsTable = @"
+                CREATE TABLE IF NOT EXISTS Events (
+                    Id SERIAL PRIMARY KEY,
+                    Name TEXT NOT NULL,
+                    Value INT NOT NULL,
+                    Timestamp TIMESTAMP NOT NULL DEFAULT NOW()
+                );";
 
         using var command = new NpgsqlCommand(createWareTable, connection);
         command.ExecuteNonQuery();
@@ -44,6 +52,9 @@ public static class DatabaseInitializer
         command.ExecuteNonQuery();
 
         command.CommandText = createPositionTable;
+        command.ExecuteNonQuery();
+        
+        command.CommandText = createEventsTable;
         command.ExecuteNonQuery();
     }
 }
