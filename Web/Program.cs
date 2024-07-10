@@ -8,7 +8,6 @@ public class Program
     {
         var host = CreateHostBuilder(args).Build();
 
-        // Инициализация базы данных
         InitializeDatabase(host);
 
         host.Run();
@@ -21,6 +20,9 @@ public class Program
                 webBuilder.UseStartup<Startup>();
             });
 
+    /// <summary>
+    /// Первичная инициализация базы данных
+    /// </summary>
     private static void InitializeDatabase(IHost host)
     {
         using (var scope = host.Services.CreateScope())

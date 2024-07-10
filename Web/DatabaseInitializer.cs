@@ -1,12 +1,18 @@
 using Npgsql;
 
-namespace Web
+namespace Web;
+
+/// <summary>
+/// Первичная инициализация базы данных
+/// </summary>
+public static class DatabaseInitializer
 {
-    public static class DatabaseInitializer
+    /// <summary>
+    /// Запросы на создание таблиц
+    /// </summary>
+    public static void CreateTables(NpgsqlConnection connection)
     {
-        public static void CreateTables(NpgsqlConnection connection)
-        {
-            var createWareTable = @"
+        var createWareTable = @"
                 CREATE TABLE IF NOT EXISTS Wares (
                     Id SERIAL PRIMARY KEY,
                     Name TEXT UNIQUE NOT NULL,
@@ -14,7 +20,7 @@ namespace Web
                     Property TEXT
                 );";
 
-            var createOrderTable = @"
+        var createOrderTable = @"
                 CREATE TABLE IF NOT EXISTS Orders (
                     Id SERIAL PRIMARY KEY,
                     Number TEXT UNIQUE NOT NULL,
@@ -22,7 +28,7 @@ namespace Web
                     Note TEXT
                 );";
 
-            var createPositionTable = @"
+        var createPositionTable = @"
                 CREATE TABLE IF NOT EXISTS Positions (
                     Id SERIAL PRIMARY KEY,
                     WareId INT NOT NULL,
@@ -31,14 +37,13 @@ namespace Web
                     FOREIGN KEY (OrderId) REFERENCES Orders(Id) ON DELETE CASCADE
                 );";
 
-            using var command = new NpgsqlCommand(createWareTable, connection);
-            command.ExecuteNonQuery();
+        using var command = new NpgsqlCommand(createWareTable, connection);
+        command.ExecuteNonQuery();
 
-            command.CommandText = createOrderTable;
-            command.ExecuteNonQuery();
+        command.CommandText = createOrderTable;
+        command.ExecuteNonQuery();
 
-            command.CommandText = createPositionTable;
-            command.ExecuteNonQuery();
-        }
+        command.CommandText = createPositionTable;
+        command.ExecuteNonQuery();
     }
 }
