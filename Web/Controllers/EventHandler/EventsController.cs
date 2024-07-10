@@ -67,6 +67,12 @@ public class EventsController : ControllerBase
         }
 
         var summary = await _eventService.GetEventsSummaryAsync(startDateTime, endDateTime);
-        return Ok(summary);
+        
+        var formattedSummary = summary.ToDictionary(
+            keyValuePair => keyValuePair.Key.ToString("dd.MM.yyyy HH:mm:ss"), 
+            keyValuePair => keyValuePair.Value
+        );
+
+        return Ok(formattedSummary);
     }
 }
