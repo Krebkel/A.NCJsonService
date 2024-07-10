@@ -1,6 +1,6 @@
-using Models;
-using Web.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Models;
+using Web.Services;
 
 namespace Web.Controllers;
 
@@ -8,24 +8,24 @@ namespace Web.Controllers;
 [Route("api/[controller]")]
 public class WaresController : ControllerBase
 {
-    private readonly WareRepository _wareRepository;
+    private readonly DataService _dataService;
 
-    public WaresController(WareRepository wareRepository)
+    public WaresController(DataService dataService)
     {
-        _wareRepository = wareRepository;
+        _dataService = dataService;
     }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Ware>>> GetWares()
     {
-        var wares = await _wareRepository.GetWaresAsync();
+        var wares = await _dataService.GetWaresAsync();
         return Ok(wares);
     }
 
     [HttpGet("{id}")]
     public async Task<ActionResult<Ware>> GetWare(int id)
     {
-        var ware = await _wareRepository.GetWareByIdAsync(id);
+        var ware = await _dataService.GetWareByIdAsync(id);
         if (ware == null)
         {
             return NotFound();
@@ -34,28 +34,67 @@ public class WaresController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateWare(Ware ware)
+    public async Task<ActionResult<Ware>> CreateWare([FromBody] Ware ware)
     {
-        await _wareRepository.CreateWareAsync(ware);
+        await _dataService.CreateWareAsync(ware);
         return CreatedAtAction(nameof(GetWare), new { id = ware.Id }, ware);
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult> UpdateWare(int id, Ware ware)
+    public async Task<IActionResult> UpdateWare(int id, [FromBody] Ware ware)
     {
         if (id != ware.Id)
         {
             return BadRequest();
         }
 
-        await _wareRepository.UpdateWareAsync(ware);
+        await _dataService.UpdateWareAsync(ware);
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteWare(int id)
+    public async Task<IActionResult> DeleteWare(int id)
     {
-        await _wareRepository.DeleteWareAsync(id);
+        await _dataService.DeleteWareAsync(id);
         return NoContent();
+    }
+
+    /// <summary>
+    /// Импорт товаров из JSON
+    /// </summary>
+    [HttpPost("import")]
+    public async Task<IActionResult> Import(IFormFile importFile)
+    {
+        if (importFile == null || importFile.Length == 0)
+        {
+            return BadRequest("Invalid file.");
+        }
+
+        await _dataService.ImportWaresFromJsonAsync(importFile);
+        return Ok();
+    }
+
+    /// <summary>
+    /// Экспорт товаров в JSON
+    /// </summary>
+    [HttpGet("export")]
+    public async Task<IActionResult> Export()
+    {
+        var data = await _dataService.ExportWaresToJsonAsync();
+        return File(data, "application/json", "wares.json");
+    }
+    
+    /// <summary>
+    /// Экспорт товара по ID в JSON
+    /// </summary>
+    [HttpGet("{id}/export")]
+    public async Task<ActionResult> ExportWareById(int id)
+    {
+        var data = await _dataService.ExportWareByIdToJsonAsync(id);
+        if (data == null)
+        {
+            return NotFound();
+        }
+        return File(data, "application/json", $"ware_{id}.json");
     }
 }
