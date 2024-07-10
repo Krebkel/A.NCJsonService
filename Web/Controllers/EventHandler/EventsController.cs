@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models.EventHandler;
 using Web.Services.EventHandler;
 using System.Globalization;
+using Newtonsoft.Json;
 
 namespace Web.Controllers.EventHandler;
 
@@ -16,6 +17,9 @@ public class EventsController : ControllerBase
         _eventService = eventService;
     }
 
+    /// <summary>
+    /// Добавление события вручную
+    /// </summary>
     [HttpPost]
     public async Task<IActionResult> PostEvent([FromBody] Event eventItem)
     {
@@ -25,6 +29,22 @@ public class EventsController : ControllerBase
         }
 
         await _eventService.AddEventAsync(eventItem);
+        return Ok();
+    }
+    
+    /// <summary>
+    /// Добавление события через JSON файл
+    /// </summary>
+    [HttpPost("import")]
+    public async Task<IActionResult> Import(IFormFile importFile)
+    {
+        if (importFile == null || importFile.Length == 0)
+        {
+            return BadRequest("Invalid file.");
+        }
+
+        await _eventService.ImportEventsFromJsonAsync(importFile);
+        
         return Ok();
     }
 

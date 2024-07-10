@@ -1,5 +1,6 @@
 using Dapper;
 using Models.EventHandler;
+using Newtonsoft.Json;
 using Npgsql;
 
 namespace Web.Services.EventHandler;
@@ -18,9 +19,30 @@ public class EventService : IEventService
     /// </summary>
     public async Task AddEventAsync(Event eventItem)
     {
-        eventItem.Timestamp = DateTime.UtcNow;
+        eventItem.Timestamp = DateTime.UtcNow; // Время генерируется автоматически
         var query = "INSERT INTO Events (Name, Value, Timestamp) VALUES (@Name, @Value, @Timestamp)";
         await _connection.ExecuteAsync(query, eventItem);
+    }
+    
+    /// <summary>
+    /// Импорт события из JSON
+    /// </summary>
+    public async Task ImportEventsFromJsonAsync(IFormFile importFile)
+    {
+        if (importFile == null || importFile.Length == 0)
+        {
+            throw new InvalidDataException("Invalid file.");
+        }
+
+        using var stream = new StreamReader(importFile.OpenReadStream());
+        var content = await stream.ReadToEndAsync();
+        var events = JsonConvert.DeserializeObject<List<Event>>(content);
+
+        foreach (var eventItem in events)
+        {
+            eventItem.Timestamp = DateTime.UtcNow;
+            await AddEventAsync(eventItem);
+        }
     }
 
     /// <summary>
