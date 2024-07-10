@@ -1,37 +1,39 @@
-using Data;
-using Web.Repositories;
+using Npgsql;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Web;
 
-// Add services to the container.
-builder.Services.AddControllers()
-    .AddNewtonsoftJson(options =>
-    {
-        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
-        options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
-    });
-
-// Регистрация репозиториев
-builder.Services
-    .AddSingleton<WareRepository>()
-    .AddSingleton<OrderRepository>()
-    .AddSingleton<ItemRepository>();
-
-builder.Services
-    .AddEndpointsApiExplorer()
-    .AddSwaggerGen();
-
-var app = builder.Build();
-
-// Swagger UI и HealthChecks
-app.UseRouting();
-app.UseEndpoints(endpoints =>
+public class Program
 {
-    endpoints.MapControllers();
-});
+    public static void Main(string[] args)
+    {
+        var host = CreateHostBuilder(args).Build();
 
-// Swagger UI
-app.UseSwagger();
-app.UseSwaggerUI();
+        // Инициализация базы данных
+        InitializeDatabase(host);
 
-app.Run();
+        host.Run();
+    }
+
+    public static IHostBuilder CreateHostBuilder(string[] args) =>
+        Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+            {
+                webBuilder.UseStartup<Startup>();
+            });
+
+    private static void InitializeDatabase(IHost host)
+    {
+        using (var scope = host.Services.CreateScope())
+        {
+            var services = scope.ServiceProvider;
+            var configuration = services.GetRequiredService<IConfiguration>();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+
+            using var connection = new NpgsqlConnection(connectionString);
+            connection.Open();
+
+            // Создание таблиц
+            DatabaseInitializer.CreateTables(connection);
+        }
+    }
+}
