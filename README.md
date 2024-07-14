@@ -124,9 +124,9 @@ https://docs.docker.com/docker-for-windows/install
 
 ## Запуск и использование сервиса
 
-1. Откройте браузер
+1. Скомпилируйте проект
 
-2. Откройте страницу `localhost:80/Swagger/Index.html`. Появится список API.
+2. Откройте в браузере страницу `localhost:80/Swagger/Index.html`. Появится список API.
 
 3. Работа с товарами
 
